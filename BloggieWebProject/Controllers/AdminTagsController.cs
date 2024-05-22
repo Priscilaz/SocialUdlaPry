@@ -35,10 +35,22 @@ namespace BloggieWebProject.Controllers
                 _blogDbContext.Tags.Add(tag);
                 _blogDbContext.SaveChanges();
 
-                return RedirectToAction(nameof(Agregar));
+                //return RedirectToAction(nameof(Agregar));
+                return RedirectToAction("Listar");
             }
 
+            //return View(agregarTagRequest);
             return View(agregarTagRequest);
+        }
+
+        [HttpGet]
+        public IActionResult Listar()
+        {
+            //Usar DbContext para leer los tags
+            var tags = _blogDbContext.Tags.ToList();
+
+
+            return View(tags);
         }
     }
 }

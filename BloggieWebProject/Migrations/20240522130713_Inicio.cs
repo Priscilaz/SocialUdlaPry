@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BloggieWebProject.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class Inicio : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,8 +20,8 @@ namespace BloggieWebProject.Migrations
                     TituloPagina = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Contenido = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DescripcionCorta = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UrlImagenDestacada = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ManejadorUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UrlImagenDestacada = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ManejadorUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FechaPublicacion = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Autor = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Visible = table.Column<bool>(type: "bit", nullable: false)

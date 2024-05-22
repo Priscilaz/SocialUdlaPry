@@ -7,13 +7,11 @@ namespace BloggieWebProject.Models.Dominio
         public Guid Id { get; set; }
 
         [Required]
-        public string? Nombre { get; set; }
+        public string Nombre { get; set; }
 
         [Required]
-        public string? DisplayNombre { get; set; }
+        public string DisplayNombre { get; set; }
 
-        [Required]
-
-        public ICollection<BlogPost> BlogPosts { get; set; }  //Un tag tendrá multiples post
+        public ICollection<BlogPost> BlogPosts { get; set; } = new List<BlogPost>(); // Inicializar la colección
     }
 }

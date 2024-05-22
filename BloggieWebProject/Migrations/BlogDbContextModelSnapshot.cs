@@ -63,6 +63,7 @@ namespace BloggieWebProject.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ManejadorUrl")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TituloPagina")
@@ -70,6 +71,7 @@ namespace BloggieWebProject.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UrlImagenDestacada")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Visible")

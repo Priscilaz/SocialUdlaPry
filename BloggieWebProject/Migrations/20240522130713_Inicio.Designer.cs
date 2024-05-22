@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BloggieWebProject.Migrations
 {
     [DbContext(typeof(BlogDbContext))]
-    [Migration("20240522002050_Initial Migration")]
-    partial class InitialMigration
+    [Migration("20240522130713_Inicio")]
+    partial class Inicio
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,6 +66,7 @@ namespace BloggieWebProject.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ManejadorUrl")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TituloPagina")
@@ -73,6 +74,7 @@ namespace BloggieWebProject.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UrlImagenDestacada")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Visible")

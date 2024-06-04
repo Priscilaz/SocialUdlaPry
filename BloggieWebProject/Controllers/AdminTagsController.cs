@@ -44,6 +44,7 @@ namespace BloggieWebProject.Controllers
         }
 
         [HttpGet]
+        [ActionName("Listar")]
         public IActionResult Listar()
         {
             //Usar DbContext para leer los tags

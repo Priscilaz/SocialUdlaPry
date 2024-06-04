@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BloggieWebProject.Models.Dominio
+namespace BloggieWebProject.Models.ViewModels
 {
-    public class Tag
+    public class EditarTagRequest
     {
         public Guid Id { get; set; }
 
@@ -12,6 +12,5 @@ namespace BloggieWebProject.Models.Dominio
         [Required]
         public string? DisplayNombre { get; set; }
 
-        public ICollection<BlogPost> BlogPosts { get; set; } = new List<BlogPost>(); // Inicializar la colección
     }
 }

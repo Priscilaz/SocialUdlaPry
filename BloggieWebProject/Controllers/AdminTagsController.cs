@@ -54,8 +54,25 @@ namespace BloggieWebProject.Controllers
             return View(tags);
         }
         [HttpGet]
-        public IActionResult Editar() { 
-            return View();
+        public IActionResult Editar(Guid id) { 
+            //primer metodoo
+            // var tag = _blogDbContext.Tags.Find(id);
+           
+            //segundo metodo
+            var tag= _blogDbContext.Tags.FirstOrDefault(t => t.Id == id);
+            
+            if(tag != null)
+            {
+                var editarTagRequest = new EditarTagRequest
+                {
+                    Id = tag.Id,
+                    Nombre = tag.Nombre,
+                    DisplayNombre = tag.DisplayNombre
+                };
+                return View(editarTagRequest);
+            }
+
+            return View(null);
         }
     }
 }

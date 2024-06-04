@@ -53,5 +53,9 @@ namespace BloggieWebProject.Controllers
 
             return View(tags);
         }
+        [HttpGet]
+        public IActionResult Editar() { 
+            return View();
+        }
     }
 }

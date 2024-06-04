@@ -2,6 +2,7 @@
 using BloggieWebProject.Models.Dominio;
 using BloggieWebProject.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace BloggieWebProject.Controllers
 {
@@ -53,15 +54,18 @@ namespace BloggieWebProject.Controllers
 
             return View(tags);
         }
+
+
         [HttpGet]
-        public IActionResult Editar(Guid id) { 
-            //primer metodoo
-            // var tag = _blogDbContext.Tags.Find(id);
-           
-            //segundo metodo
-            var tag= _blogDbContext.Tags.FirstOrDefault(t => t.Id == id);
-            
-            if(tag != null)
+        public IActionResult Editar(Guid id)
+        //    //primer metodoo
+        //    // var tag = _blogDbContext.Tags.Find(id);
+
+        //    //segundo metodo
+        {
+            var tag = _blogDbContext.Tags.FirstOrDefault(t => t.Id == id);
+
+            if (tag != null)
             {
                 var editarTagRequest = new EditarTagRequest
                 {
@@ -73,6 +77,33 @@ namespace BloggieWebProject.Controllers
             }
 
             return View(null);
+        }
+
+        [HttpPost]
+        public IActionResult Editar(EditarTagRequest editarTagRequest){
+            var tag = new Tag
+            {
+                Id = editarTagRequest.Id,
+                Nombre = editarTagRequest.Nombre,
+                DisplayNombre = editarTagRequest.DisplayNombre
+
+            };
+
+            var existinTag = _blogDbContext.Tags.Find(tag.Id);
+            if (existinTag != null)
+            {
+                existinTag.Nombre= tag.Nombre;
+                existinTag.DisplayNombre = tag.DisplayNombre;
+
+                _blogDbContext.SaveChanges();
+                //return RedirectToAction("Listar");
+                //Mostrar notificación de exito
+                return RedirectToAction("Editar", new { id = editarTagRequest.Id });
+
+            }
+            //Mostrar notificación de fallo
+            return RedirectToAction("Editar", new { id  = editarTagRequest.Id });
+
         }
     }
 }

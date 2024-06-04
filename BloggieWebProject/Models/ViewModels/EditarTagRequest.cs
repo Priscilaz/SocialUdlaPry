@@ -12,5 +12,7 @@ namespace BloggieWebProject.Models.ViewModels
         [Required]
         public string? DisplayNombre { get; set; }
 
+
+
     }
 }

@@ -4,9 +4,9 @@ namespace BloggieWebProject.Controllers
 {
     public class AdminBlogPostController : Controller
     {
-        public IActionResult AgregarPost()
-        {
-            return View;
-        }
+        //public IActionResult AgregarPost()
+        //{
+        //    return View;
+        //}
     }
 }

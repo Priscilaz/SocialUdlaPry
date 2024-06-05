@@ -80,7 +80,8 @@ namespace BloggieWebProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult Editar(EditarTagRequest editarTagRequest){
+        public IActionResult Editar(EditarTagRequest editarTagRequest)
+        {
             var tag = new Tag
             {
                 Id = editarTagRequest.Id,
@@ -92,7 +93,7 @@ namespace BloggieWebProject.Controllers
             var existinTag = _blogDbContext.Tags.Find(tag.Id);
             if (existinTag != null)
             {
-                existinTag.Nombre= tag.Nombre;
+                existinTag.Nombre = tag.Nombre;
                 existinTag.DisplayNombre = tag.DisplayNombre;
 
                 _blogDbContext.SaveChanges();
@@ -102,8 +103,28 @@ namespace BloggieWebProject.Controllers
 
             }
             //Mostrar notificación de fallo
-            return RedirectToAction("Editar", new { id  = editarTagRequest.Id });
+            return RedirectToAction("Editar", new { id = editarTagRequest.Id });
+
+        }
+        public IActionResult Eliminar(EditarTagRequest editarTagRequest)
+        {
+            {
+               var tag= _blogDbContext.Tags.Find(editarTagRequest.Id);
+
+                if (tag != null)
+                {
+                    _blogDbContext.Tags.Remove(tag);
+                    _blogDbContext.SaveChanges();
+                    // mostrar notificacion
+                    return RedirectToAction("List");
+
+                }
+                //mostrar notificacion de error
+                return RedirectToAction("Editar",new { id = editarTagRequest.Id });
+
+            };
 
         }
     }
+
 }

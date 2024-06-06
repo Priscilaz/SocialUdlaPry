@@ -1,6 +1,7 @@
 ﻿namespace BloggieWebProject.Repositorio
 {
-    public class ITagInterface
+    public interface ITagInterface
     {
+
     }
 }

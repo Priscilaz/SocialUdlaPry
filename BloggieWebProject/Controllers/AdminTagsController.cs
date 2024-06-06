@@ -124,6 +124,8 @@ namespace BloggieWebProject.Controllers
                 return RedirectToAction("Edit",new { id = editarTagRequest.Id });
 
             };
+            //return RedirectToAction(nameof(Index));
+
 
         }
     }

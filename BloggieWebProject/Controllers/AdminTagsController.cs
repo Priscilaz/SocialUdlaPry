@@ -117,11 +117,11 @@ namespace BloggieWebProject.Controllers
                     _blogDbContext.Tags.Remove(tag);
                    await _blogDbContext.SaveChangesAsync();
                     // mostrar notificacion
-                    return RedirectToAction("List");
+                    return RedirectToAction("Listar");
 
                 }
                 //mostrar notificacion de error
-                return RedirectToAction("Editar",new { id = editarTagRequest.Id });
+                return RedirectToAction("Edit",new { id = editarTagRequest.Id });
 
             };
 

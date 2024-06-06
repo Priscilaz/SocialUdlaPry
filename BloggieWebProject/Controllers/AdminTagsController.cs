@@ -103,6 +103,7 @@ namespace BloggieWebProject.Controllers
             if (tagActualizado != null)
             {
                 //mensaje correcto
+                return RedirectToAction("Listar");
             }
             else {
                 //Mostrar notificación de fallo
@@ -125,7 +126,7 @@ namespace BloggieWebProject.Controllers
                 
                 }
                 //mostrar notificacion de error
-                return RedirectToAction("Edit",new { id = editarTagRequest.Id });
+                return RedirectToAction("Editar",new { id = editarTagRequest.Id });
 
             };
             //return RedirectToAction(nameof(Index));

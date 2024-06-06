@@ -12,7 +12,7 @@ namespace BloggieWebProject.Repositorio
         private readonly BlogDbContext _blogDbContext;        
         public TagRepositorio(BlogDbContext blogDbContext)
         {
-            BlogDbContext = blogDbContext;
+            this._blogDbContext = blogDbContext;
         }
 
         public BlogDbContext BlogDbContext { get; }

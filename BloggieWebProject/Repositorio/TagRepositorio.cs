@@ -1,5 +1,7 @@
 ﻿using BloggieWebProject.Data;
 using BloggieWebProject.Models.Dominio;
+using BloggieWebProject.Models.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace BloggieWebProject.Repositorio
 {
@@ -22,24 +24,48 @@ namespace BloggieWebProject.Repositorio
             return tag;
         }
 
-        public Task<Tag?> DeleteAsync(Guid id)
+        public async Task<Tag?> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var existeTag = await _blogDbContext.Tags.FindAsync(id);
+
+            if (existeTag != null)
+            {
+                _blogDbContext.Tags.Remove(existeTag);
+                await _blogDbContext.SaveChangesAsync();
+                // mostrar notificacion
+                return existeTag;
+
+            };
+            return null;
         }
 
-        public Task<IEnumerable<Tag>> GetAllAsync()
+        public async Task<IEnumerable<Tag>> GetAllAsync()
         {
-            throw new NotImplementedException();
+           return await _blogDbContext.Tags.ToListAsync();
         }
 
-        public Task<Tag> GetAsync(Guid id)
+        public Task<Tag?> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+
+           return _blogDbContext.Tags.FirstOrDefaultAsync(x => x.Id==id);
+
+
         }
 
-        public Task<Tag?> UpdateAsync(Tag tag)
+        public async Task<Tag?> UpdateAsync(Tag tag)
         {
-            throw new NotImplementedException();
+            var existeTag = await _blogDbContext.Tags.FindAsync(tag.Id);
+        
+            if(existeTag != null)
+            {
+                existeTag.Nombre = tag.Nombre;
+                existeTag.DisplayNombre = tag.DisplayNombre;
+                
+                await _blogDbContext.SaveChangesAsync();
+                return existeTag;
+            }
+            return null;
+        
         }
     }
 }

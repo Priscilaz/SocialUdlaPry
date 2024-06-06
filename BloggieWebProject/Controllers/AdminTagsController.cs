@@ -1,6 +1,7 @@
 ﻿using BloggieWebProject.Data;
 using BloggieWebProject.Models.Dominio;
 using BloggieWebProject.Models.ViewModels;
+using BloggieWebProject.Repositorio;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -9,12 +10,15 @@ namespace BloggieWebProject.Controllers
 {
     public class AdminTagsController : Controller
     {
-        private readonly BlogDbContext _blogDbContext;
+        public readonly ITagRepositorio tagRepositorio;
 
-        public AdminTagsController(BlogDbContext blogDbContext)
+        public AdminTagsController(ITagRepositorio tagRepositorio )
         {
-            _blogDbContext = blogDbContext;
+           this.tagRepositorio = tagRepositorio;
         }
+        
+
+
 
         [HttpGet]
         public IActionResult Agregar()
@@ -35,7 +39,8 @@ namespace BloggieWebProject.Controllers
                 };
                 
 
-
+                await tagRepositorio.AddAsync(tag);
+             
 
                 //await _blogDbContext.Tags.AddAsync(tag);
                 //await _blogDbContext.SaveChangesAsync() ;
@@ -53,7 +58,8 @@ namespace BloggieWebProject.Controllers
         public async Task<IActionResult> Listar()
         {
             //Usar DbContext para leer los tags
-            var tags = await _blogDbContext.Tags.ToListAsync();
+            //var tags = await _blogDbContext.Tags.ToListAsync();
+            var tags = await tagRepositorio.GetAllAsync();
 
 
             return View(tags);
@@ -67,7 +73,7 @@ namespace BloggieWebProject.Controllers
 
         //    //segundo metodo
         {
-            var tag = await _blogDbContext.Tags.FirstOrDefaultAsync(t => t.Id == id);
+            var tag = await tagRepositorio.GetAsync(id);  
 
             if (tag != null)
             {
@@ -93,35 +99,30 @@ namespace BloggieWebProject.Controllers
                 DisplayNombre = editarTagRequest.DisplayNombre
 
             };
-
-            var existinTag = await _blogDbContext.Tags.FindAsync(tag.Id);
-            if (existinTag != null)
+            var tagActualizado= await  tagRepositorio.UpdateAsync(tag);
+            if (tagActualizado != null)
             {
-                existinTag.Nombre = tag.Nombre;
-                existinTag.DisplayNombre = tag.DisplayNombre;
-
-                await _blogDbContext.SaveChangesAsync();
-                //return RedirectToAction("Listar");
-                //Mostrar notificación de exito
-                return RedirectToAction("Editar", new { id = editarTagRequest.Id });
-
+                //mensaje correcto
             }
-            //Mostrar notificación de fallo
+            else {
+                //Mostrar notificación de fallo
+              
+            }
             return RedirectToAction("Editar", new { id = editarTagRequest.Id });
+
 
         }
         public async Task<IActionResult> Eliminar(EditarTagRequest editarTagRequest)
         {
             {
-               var tag= await _blogDbContext.Tags.FindAsync(editarTagRequest.Id);
 
-                if (tag != null)
-                {
-                    _blogDbContext.Tags.Remove(tag);
-                   await _blogDbContext.SaveChangesAsync();
-                    // mostrar notificacion
+                var borrarTag = await tagRepositorio.DeleteAsync(editarTagRequest.Id);
+              
+                if (borrarTag != null) {
+
+                    //mostrar noficacion de exito
                     return RedirectToAction("Listar");
-
+                
                 }
                 //mostrar notificacion de error
                 return RedirectToAction("Edit",new { id = editarTagRequest.Id });

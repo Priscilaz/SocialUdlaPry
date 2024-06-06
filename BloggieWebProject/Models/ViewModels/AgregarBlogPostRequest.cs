@@ -20,6 +20,7 @@ namespace BloggieWebProject.Models.ViewModels
         public IEnumerable<SelectListItem> Tags { get; set; }
 
         // Collect Tag
-        public string TagSeleccionado { get; set; }
+        public string[] TagSeleccionado { get; set; } = Array.Empty<string>();
+
     }
 }

@@ -33,9 +33,12 @@ namespace BloggieWebProject.Controllers
                     Nombre = agregarTagRequest.Nombre,
                     DisplayNombre = agregarTagRequest.DisplayNombre
                 };
+                
 
-                await _blogDbContext.Tags.AddAsync(tag);
-                await _blogDbContext.SaveChangesAsync() ;
+
+
+                //await _blogDbContext.Tags.AddAsync(tag);
+                //await _blogDbContext.SaveChangesAsync() ;
 
                 //return RedirectToAction(nameof(Agregar));
                 return RedirectToAction("Listar");

@@ -24,7 +24,7 @@ namespace BloggieWebProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Agregar(AgregarTagRequest agregarTagRequest)
+        public async Task<IActionResult> Agregar(AgregarTagRequest agregarTagRequest)
         {
             if (ModelState.IsValid)
             {
@@ -34,8 +34,8 @@ namespace BloggieWebProject.Controllers
                     DisplayNombre = agregarTagRequest.DisplayNombre
                 };
 
-                _blogDbContext.Tags.Add(tag);
-                _blogDbContext.SaveChanges() ;
+                await _blogDbContext.Tags.AddAsync(tag);
+                await _blogDbContext.SaveChangesAsync() ;
 
                 //return RedirectToAction(nameof(Agregar));
                 return RedirectToAction("Listar");
@@ -81,7 +81,7 @@ namespace BloggieWebProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult Editar(EditarTagRequest editarTagRequest)
+        public async Task<IActionResult> Editar(EditarTagRequest editarTagRequest)
         {
             var tag = new Tag
             {
@@ -91,13 +91,13 @@ namespace BloggieWebProject.Controllers
 
             };
 
-            var existinTag = _blogDbContext.Tags.Find(tag.Id);
+            var existinTag = await _blogDbContext.Tags.FindAsync(tag.Id);
             if (existinTag != null)
             {
                 existinTag.Nombre = tag.Nombre;
                 existinTag.DisplayNombre = tag.DisplayNombre;
 
-                _blogDbContext.SaveChanges();
+                await _blogDbContext.SaveChangesAsync();
                 //return RedirectToAction("Listar");
                 //Mostrar notificación de exito
                 return RedirectToAction("Editar", new { id = editarTagRequest.Id });
@@ -107,15 +107,15 @@ namespace BloggieWebProject.Controllers
             return RedirectToAction("Editar", new { id = editarTagRequest.Id });
 
         }
-        public IActionResult Eliminar(EditarTagRequest editarTagRequest)
+        public async Task<IActionResult> Eliminar(EditarTagRequest editarTagRequest)
         {
             {
-               var tag= _blogDbContext.Tags.Find(editarTagRequest.Id);
+               var tag= await _blogDbContext.Tags.FindAsync(editarTagRequest.Id);
 
                 if (tag != null)
                 {
                     _blogDbContext.Tags.Remove(tag);
-                    _blogDbContext.SaveChanges();
+                   await _blogDbContext.SaveChangesAsync();
                     // mostrar notificacion
                     return RedirectToAction("List");
 

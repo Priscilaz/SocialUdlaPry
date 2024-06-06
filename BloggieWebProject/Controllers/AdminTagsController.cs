@@ -2,6 +2,7 @@
 using BloggieWebProject.Models.Dominio;
 using BloggieWebProject.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace BloggieWebProject.Controllers
@@ -34,7 +35,7 @@ namespace BloggieWebProject.Controllers
                 };
 
                 _blogDbContext.Tags.Add(tag);
-                _blogDbContext.SaveChanges();
+                _blogDbContext.SaveChanges() ;
 
                 //return RedirectToAction(nameof(Agregar));
                 return RedirectToAction("Listar");
@@ -46,10 +47,10 @@ namespace BloggieWebProject.Controllers
 
         [HttpGet]
         [ActionName("Listar")]
-        public IActionResult Listar()
+        public async Task<IActionResult> Listar()
         {
             //Usar DbContext para leer los tags
-            var tags = _blogDbContext.Tags.ToList();
+            var tags = await _blogDbContext.Tags.ToListAsync();
 
 
             return View(tags);
@@ -57,13 +58,13 @@ namespace BloggieWebProject.Controllers
 
 
         [HttpGet]
-        public IActionResult Editar(Guid id)
+        public async Task<IActionResult> Editar(Guid id)
         //    //primer metodoo
         //    // var tag = _blogDbContext.Tags.Find(id);
 
         //    //segundo metodo
         {
-            var tag = _blogDbContext.Tags.FirstOrDefault(t => t.Id == id);
+            var tag = await _blogDbContext.Tags.FirstOrDefaultAsync(t => t.Id == id);
 
             if (tag != null)
             {

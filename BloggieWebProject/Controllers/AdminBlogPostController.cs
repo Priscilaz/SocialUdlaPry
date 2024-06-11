@@ -11,10 +11,12 @@ namespace BloggieWebProject.Controllers
     public class AdminBlogPostController : Controller
     {
         private readonly ITagRepositorio tagRepositorio;
+        private readonly IBlogPostRepositorio blogPostRepositorio;
 
-        public AdminBlogPostController(ITagRepositorio tagRepositorio)
+        public AdminBlogPostController(ITagRepositorio tagRepositorio, IBlogPostRepositorio blogPostRepositorio)
         {
             this.tagRepositorio = tagRepositorio;
+            this.blogPostRepositorio= blogPostRepositorio;
         }
 
         [HttpGet]
@@ -32,7 +34,7 @@ namespace BloggieWebProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Agrsgr(AgregarBlogPostRequest agregarBlogPostRequest)
+        public async Task<IActionResult> Agregar(AgregarBlogPostRequest agregarBlogPostRequest)
         {
             // Map view model to domain model
             var blogPost = new BlogPost { 
@@ -62,8 +64,9 @@ namespace BloggieWebProject.Controllers
             }
 
             // Mapping tags back to domain model
-            blogPost.Tags = selectedTags;
+            blogPost.Tags = tagSeleccionados;
 
+            
 
             await blogPostRepositorio.AddAsync(blogPost);
 

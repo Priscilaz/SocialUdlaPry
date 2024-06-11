@@ -47,9 +47,15 @@
             <input type="checkbox" class="form-check-input" id="visible" asp-for="Visible" />
             <label class="form-check-label" for="visible">Visible</label>
         </div>
+
         <div class="mb-3">
             <label class="form-label">Etiqueta</label>
-            <select class="form-control" id="tagSeleccionado" asp-for="TagSeleccionado" asp-items="Model.Tags">
+            <select class="form-control" 
+                        id="tagSeleccionado" 
+                        asp-for="TagSeleccionado" 
+                        asp-items="@Model.Tags" 
+               
+                >
                 <option value="">Selecciona una etiqueta</option>
             </select>
         </div>

@@ -5,6 +5,7 @@ using BloggieWebProject.Models.ViewModels;
 using System.Linq;
 using System.Threading.Tasks;
 using BloggieWebProject.Models.Dominio;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace BloggieWebProject.Controllers
 {
@@ -72,5 +73,16 @@ namespace BloggieWebProject.Controllers
 
             return RedirectToAction("Add");
         }
+
+        [HttpPost]
+
+        public async Task<IActionResult> Lista()
+        {
+            var blogPost = await blogPostRepositorio.GetAllAsync();
+            return View(blogPost);
+        }
     }
+
+
+
 }

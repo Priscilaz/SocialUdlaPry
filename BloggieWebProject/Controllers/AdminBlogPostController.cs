@@ -80,5 +80,46 @@ namespace BloggieWebProject.Controllers
             return View(blogPosts);
         }
 
+
+        //Desde aqui cambie Pris
+        [HttpGet]
+        public async Task<IActionResult> Editar(Guid id)
+        {
+            var blogPost = await blogPostRepositorio.GetAsync(id);
+            var tagsDomainModel = await tagRepositorio.GetAllAsync();
+
+            if (blogPost != null)
+            {
+                //mapear el modelo de dominio en el view model
+                var model = new EditarBlogPostRequest
+                {
+                    Id = blogPost.Id,
+                    Encabezado = blogPost.Encabezado,
+                    TituloPagina = blogPost.TituloPagina,
+                    Contenido = blogPost.Contenido,
+                    Autor = blogPost.Autor,
+                    UrlImagenDestacada = blogPost.UrlImagenDestacada,
+                    ManejadorUrl = blogPost.ManejadorUrl,
+                    DescripcionCorta = blogPost.DescripcionCorta,
+                    FechaPublicacion = blogPost.FechaPublicacion,
+                    Visible = blogPost.Visible,
+                    Tags = tagsDomainModel.Select(x => new SelectListItem
+                    {
+                        Text = x.Nombre,
+                        Value = x.Id.ToString()
+
+                    }),
+                    TagSeleccionado = blogPost.Tags.Select(x => x.Id.ToString()).ToArray(),
+                };
+                return View(model);
+
+            }
+
+            
+           //pasar datos a la vista
+
+            return View(null);
+        }
+
     }
 }

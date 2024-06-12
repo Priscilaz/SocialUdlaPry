@@ -30,7 +30,8 @@ namespace BloggieWebProject.Repositorio
 
         public async Task<IEnumerable<BlogPost>> GetAllAsync()
         {
-            return await blogDbContext.BlogPosts.ToListAsync();
+            return await blogDbContext.BlogPosts.Include(bp => bp.Tags).ToListAsync();
+
         }
 
         public Task<BlogPost?> GetAsync(Guid id)

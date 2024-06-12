@@ -1,73 +1,63 @@
 ﻿using BloggieWebProject.Data;
 using BloggieWebProject.Models.Dominio;
-using BloggieWebProject.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BloggieWebProject.Repositorio
 {
     public class TagRepositorio : ITagRepositorio
-
     {
+        private readonly BlogDbContext blogDbContext;
 
-        private readonly BlogDbContext _blogDbContext;        
         public TagRepositorio(BlogDbContext blogDbContext)
         {
-            this._blogDbContext = blogDbContext;
-
-            _blogDbContext = blogDbContext;
+            this.blogDbContext = blogDbContext;
         }
-
-        public BlogDbContext BlogDbContext { get; }
 
         public async Task<Tag> AddAsync(Tag tag)
         {
-            await _blogDbContext.Tags.AddAsync(tag);
-            await _blogDbContext.SaveChangesAsync();
+            await blogDbContext.Tags.AddAsync(tag);
+            await blogDbContext.SaveChangesAsync();
             return tag;
         }
 
         public async Task<Tag?> DeleteAsync(Guid id)
         {
-            var existeTag = await _blogDbContext.Tags.FindAsync(id);
-
-            if (existeTag != null)
+            var tag = await blogDbContext.Tags.FindAsync(id);
+            if (tag != null)
             {
-                _blogDbContext.Tags.Remove(existeTag);
-                await _blogDbContext.SaveChangesAsync();
-                // mostrar notificacion
-                return existeTag;
-
-            };
+                blogDbContext.Tags.Remove(tag);
+                await blogDbContext.SaveChangesAsync();
+                return tag;
+            }
             return null;
         }
 
         public async Task<IEnumerable<Tag>> GetAllAsync()
         {
-           return await _blogDbContext.Tags.ToListAsync();
+            return await blogDbContext.Tags.Include(t => t.BlogPosts).ToListAsync();
         }
 
-        public Task<Tag?> GetAsync(Guid id)
+        public async Task<Tag?> GetAsync(Guid id)
         {
-
-           return _blogDbContext.Tags.FirstOrDefaultAsync(x => x.Id==id);
-
-
+            return await blogDbContext.Tags.Include(t => t.BlogPosts)
+                                           .FirstOrDefaultAsync(t => t.Id == id);
         }
 
         public async Task<Tag?> UpdateAsync(Tag tag)
         {
-            var existeTag = await _blogDbContext.Tags.FindAsync(tag.Id);
-        
-            if(existeTag != null)
+            var existingTag = await blogDbContext.Tags.FindAsync(tag.Id);
+            if (existingTag != null)
             {
-                existeTag.Nombre = tag.Nombre;
-                existeTag.DisplayNombre = tag.DisplayNombre;
-                
-                await _blogDbContext.SaveChangesAsync();
-                return existeTag;
+                existingTag.Nombre = tag.Nombre;
+                existingTag.DisplayNombre = tag.DisplayNombre;
+
+                await blogDbContext.SaveChangesAsync();
+                return existingTag;
             }
             return null;
-        
         }
     }
 }

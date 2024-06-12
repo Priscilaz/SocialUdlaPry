@@ -5,7 +5,6 @@ using BloggieWebProject.Models.ViewModels;
 using System.Linq;
 using System.Threading.Tasks;
 using BloggieWebProject.Models.Dominio;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace BloggieWebProject.Controllers
 {
@@ -17,7 +16,7 @@ namespace BloggieWebProject.Controllers
         public AdminBlogPostController(ITagRepositorio tagRepositorio, IBlogPostRepositorio blogPostRepositorio)
         {
             this.tagRepositorio = tagRepositorio;
-            this.blogPostRepositorio= blogPostRepositorio;
+            this.blogPostRepositorio = blogPostRepositorio;
         }
 
         [HttpGet]
@@ -38,8 +37,8 @@ namespace BloggieWebProject.Controllers
         public async Task<IActionResult> Agregar(AgregarBlogPostRequest agregarBlogPostRequest)
         {
             // Map view model to domain model
-            var blogPost = new BlogPost { 
-            
+            var blogPost = new BlogPost
+            {
                 Encabezado = agregarBlogPostRequest.Encabezado,
                 TituloPagina = agregarBlogPostRequest.TituloPagina,
                 Contenido = agregarBlogPostRequest.Contenido,
@@ -64,25 +63,22 @@ namespace BloggieWebProject.Controllers
                 }
             }
 
-            // Mapping tags back to domain model
             blogPost.Tags = tagSeleccionados;
-
-            
 
             await blogPostRepositorio.AddAsync(blogPost);
 
-            return RedirectToAction("Add");
+            return RedirectToAction("Lista");
         }
-
-        [HttpPost]
-
+        [HttpGet]
         public async Task<IActionResult> Lista()
         {
-            var blogPost = await blogPostRepositorio.GetAllAsync();
-            return View(blogPost);
+            var blogPosts = await blogPostRepositorio.GetAllAsync();
+            if (blogPosts == null)
+            {
+                return View(new List<BlogPost>()); 
+            }
+            return View(blogPosts);
         }
+
     }
-
-
-
 }

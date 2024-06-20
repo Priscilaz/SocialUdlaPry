@@ -23,14 +23,22 @@ namespace BloggieWebProject.Repositorio
             return blogPost;
         }
 
-        public Task<BlogPost?> DeleteAsync(Guid id)
+        public async Task<BlogPost?> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var blogExistente = await blogDbContext.BlogPosts.FindAsync(id);
+
+            if (blogExistente != null)
+            {
+                blogDbContext.BlogPosts.Remove(blogExistente);
+                await blogDbContext.SaveChangesAsync();
+                return blogExistente;
+            }
+            return null;
         }
 
         public async Task<IEnumerable<BlogPost>> GetAllAsync()
         {
-            return await blogDbContext.BlogPosts.Include(bp => bp.Tags).ToListAsync();
+            return await blogDbContext.BlogPosts.Include(x => x.Tags).ToListAsync();
 
         }
 
@@ -44,9 +52,30 @@ namespace BloggieWebProject.Repositorio
             throw new NotImplementedException();
         }
 
-        public Task<BlogPost?> UpdateAsync(BlogPost blogPost)
+        public async Task<BlogPost?> UpdateAsync(BlogPost blogPost)
         {
-            throw new NotImplementedException();
+            
+           var blogExistente= await blogDbContext.BlogPosts.Include(x => x.Tags)
+                .FirstOrDefaultAsync(x => x.Id == blogPost.Id);
+
+            if(blogExistente != null)
+            {
+                blogExistente.Id = blogPost.Id;
+                blogExistente.Encabezado = blogPost.Encabezado;
+                blogExistente.TituloPagina = blogPost.TituloPagina;
+                blogExistente.Contenido = blogPost.Contenido;
+                blogExistente.DescripcionCorta = blogPost.DescripcionCorta;                
+                blogExistente.Autor = blogPost.Autor;
+                blogExistente.UrlImagenDestacada = blogPost.UrlImagenDestacada;
+                blogExistente.ManejadorUrl = blogPost.ManejadorUrl;
+                blogExistente.Visible = blogPost.Visible;
+                blogExistente.FechaPublicacion = blogPost.FechaPublicacion;
+                blogExistente.Tags = blogPost.Tags;
+
+                await blogDbContext.SaveChangesAsync();
+                return blogExistente;
+            }
+            return null;
         }
     }
 }

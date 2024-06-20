@@ -120,6 +120,59 @@ namespace BloggieWebProject.Controllers
 
             return View(null);
         }
+        [HttpPost]
+        public async Task<IActionResult> Editar(EditarBlogPostRequest editarBlogPostRequest)
+        {
+           //Mapear View Model de vuelta en el domain model
+            var blogPostDomainModel = new BlogPost
+            {
+                Id = editarBlogPostRequest.Id,
+                Encabezado = editarBlogPostRequest.Encabezado,
+                TituloPagina = editarBlogPostRequest.TituloPagina,
+                Contenido = editarBlogPostRequest.Contenido,
+                Autor = editarBlogPostRequest.Autor,
+                DescripcionCorta = editarBlogPostRequest.DescripcionCorta,
+                UrlImagenDestacada = editarBlogPostRequest.UrlImagenDestacada,
+                FechaPublicacion = editarBlogPostRequest.FechaPublicacion,
+                ManejadorUrl = editarBlogPostRequest.ManejadorUrl,
+                Visible = editarBlogPostRequest.Visible
+            };
 
+            //Mapear tags en el domain model
+            var selectedTags = new List<Tag>();
+            foreach (var selectedTag in editarBlogPostRequest.TagSeleccionado) 
+            { 
+                if(Guid.TryParse(selectedTag, out var tag))
+                {
+                    var tagEncontrado= await tagRepositorio.GetAsync(tag);
+                    if(tagEncontrado != null)
+                    {
+                        selectedTags.Add(tagEncontrado);
+                    }
+                }
+            }
+
+            blogPostDomainModel.Tags = selectedTags;
+            //Enviar la informacion al repositorio para actualizar
+            var blogActualizado= await blogPostRepositorio.UpdateAsync(blogPostDomainModel);
+            if (blogActualizado != null) 
+            {
+                return RedirectToAction("Editar");
+            }
+            return RedirectToAction("Editar");
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Eliminar(EditarBlogPostRequest editarBlogPostRequest)
+        {
+           var blogPostEliminado = await blogPostRepositorio.DeleteAsync(editarBlogPostRequest.Id);
+
+            if(blogPostEliminado != null)
+            {
+                return RedirectToAction("Lista");
+            }
+            return RedirectToAction("Editar", new {id= editarBlogPostRequest.Id});
+        }
     }
 }

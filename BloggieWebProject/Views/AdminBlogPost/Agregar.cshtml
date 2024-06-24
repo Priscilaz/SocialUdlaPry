@@ -20,10 +20,20 @@
             <input type="text" class="form-control" id="tituloPagina" asp-for="TituloPagina" />
         </div>
 
+
+
+
         <div class="mb-3">
             <label class="form-label">Contenido</label>
             <textarea class="form-control" id="contenido" asp-for="Contenido"></textarea>
         </div>
+
+
+
+
+
+
+
 
         <div class="mb-3">
             <label class="form-label">Descripción Corta</label>
@@ -64,3 +74,9 @@
         <button type="submit" class="btn btn-primary">Agregar</button>
     </form>
 </div>
+
+@section Scripts {
+    <script>
+        var editor = new FroalaEditor('#contenido');
+    </script>
+}

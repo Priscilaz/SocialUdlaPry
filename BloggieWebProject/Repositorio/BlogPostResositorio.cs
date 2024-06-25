@@ -47,9 +47,10 @@ namespace BloggieWebProject.Repositorio
             return await blogDbContext.BlogPosts.Include(x => x.Tags).FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<BlogPost?> GetByUrlHandleAsync(string urlHandle)
+        public async Task<BlogPost?> GetByUrlHandleAsync(string urlHandle)
         {
-            throw new NotImplementedException();
+            return await blogDbContext.BlogPosts.Include(x => x.Tags)
+                .FirstOrDefaultAsync(x =>x.ManejadorUrl == urlHandle);
         }
 
         public async Task<BlogPost?> UpdateAsync(BlogPost blogPost)

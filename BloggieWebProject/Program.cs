@@ -1,5 +1,6 @@
 using BloggieWebProject.Data;
 using BloggieWebProject.Repositorio;
+using CloudinaryDotNet;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +14,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("BlogDbConnection
 
 builder.Services.AddScoped<ITagRepositorio, TagRepositorio>();
 builder.Services.AddScoped<IBlogPostRepositorio, BlogPostResositorio>();
- 
+builder.Services.AddScoped<IImageRepositorio, CloudinaryImageRepositorio>();
 
 var app = builder.Build();
 

@@ -22,6 +22,10 @@ body {
     background-color: #f8f9fa;
 }
 
+.blog-details-content img {
+    max-width: 100%
+}
+
 h1.display-4 {
     color: #343a40;
     margin-bottom: 30px;

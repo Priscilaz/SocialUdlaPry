@@ -16,5 +16,8 @@ namespace BloggieWebProject.Models.Dominio
 
         // Relación con Comentario
         public ICollection<Comentario>? Comentarios { get; set; } = new List<Comentario>();
+
+
+        ///prueba de cambios
     }
 }

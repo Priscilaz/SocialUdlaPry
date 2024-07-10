@@ -29,7 +29,7 @@
 </div>
 
 
-<div class="container">
+@* <div class="container">
     <div class="row justify-content-center">
         <div class="col-6 d-flex">
             @if (Model != null && Model.Tags.Any())
@@ -43,7 +43,7 @@
             }
         </div>
     </div>
-</div>
+</div> *@
 
 <div class="container">
     <div class="row justify-content-center">
@@ -53,27 +53,14 @@
                 foreach(var blogPost in Model.BlogPosts)
                 {
                     <div class="mb-5 bg-light box-shadow p-5">
-                        <img src="@blogPost.UrlImagenDestacada" alt="@blogPost.Encabezado"
-                        class="mb-2 d-block img-fluid"/>
+                        
                         <h2 class="mb-4">@blogPost.Encabezado</h2>
-                        <p class="mb-4">
-                            Autor: @blogPost.Autor
-                            <br />
-                            Fecha de Publicación: @blogPost.FechaPublicacion.ToShortDateString()
-
-                        </p>
-                        <p class="mb-4">
-                            @foreach (var tag in blogPost.Tags)
-                            {
-                                <span class="badge bg-secondary me-1">@tag.Nombre</span>
-                            }
-                        </p>
-                        <p class="mb-4">@blogPost.DescripcionCorta</p>
+                        
                         <a class="btn btn-dark"
                             asp-area=""
                             asp-controller="Blogs"
                             asp-action="Index"
-                            asp-route-manejadorUrl="@blogPost.ManejadorUrl"
+                          
                             >Leer Más</a>
                     </div>
                 }

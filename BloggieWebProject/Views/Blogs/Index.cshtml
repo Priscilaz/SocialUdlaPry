@@ -1,7 +1,7 @@
 ﻿@model BloggieWebProject.Models.Dominio.BlogPost
 
 @{
-	ViewData["Title"] = Model.TituloPagina;
+	ViewData["Title"] = Model.Encabezado;
 }
 
 <div class=" container my-5">
@@ -12,13 +12,7 @@
 			{
 				<h1 class="mb-3">@Model.Encabezado</h1>
 
-				<div class="d-flex justify-content-between mb-3">
-					<span class="text-secondary">@Model.Autor</span>
-					<span class="text-secondary">@Model.FechaPublicacion.ToLongDateString()</span>
-
-				</div>
-				<img src="@Model.UrlImagenDestacada" class="d-block img-fluid mb-3" />
-
+		
 				<div class="mb-3 blog-details-content">
 					@Html.Raw(Model.Contenido)
 				</div>

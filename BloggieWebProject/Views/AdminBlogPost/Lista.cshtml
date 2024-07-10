@@ -17,7 +17,7 @@
                 <tr>
                     <td>Id</td>
                     <td>Encabezado</td>
-                    <td>Tags</td>
+                    
                     <td> </td>
                 </tr>
             </thead>
@@ -27,14 +27,7 @@
                     <tr>
                         <td>@blogPost.Id</td>
                         <td>@blogPost.Encabezado</td>
-                        <td>
-                            <div class="d-flex">
-                                @foreach (var tag in blogPost.Tags)
-                                {
-                                    <span class="badge bg-secondary me-1">@tag.Nombre</span>
-                                }
-                            </div>
-                        </td>
+                      
                         <td>
                             <a asp-area=""
                                asp-controller="AdminBlogPost"

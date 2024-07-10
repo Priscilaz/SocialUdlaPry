@@ -38,41 +38,30 @@ namespace BloggieWebProject.Repositorio
 
         public async Task<IEnumerable<BlogPost>> GetAllAsync()
         {
-            return await blogDbContext.BlogPosts.Include(x => x.Tags).ToListAsync();
+            return await blogDbContext.BlogPosts.ToListAsync();
 
         }
 
         public async Task<BlogPost?> GetAsync(Guid id)
         {
-            return await blogDbContext.BlogPosts.Include(x => x.Tags).FirstOrDefaultAsync(x => x.Id == id);
+            return await blogDbContext.BlogPosts.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<BlogPost?> GetByUrlHandleAsync(string urlHandle)
-        {
-            return await blogDbContext.BlogPosts.Include(x => x.Tags)
-                .FirstOrDefaultAsync(x =>x.ManejadorUrl == urlHandle);
-        }
+       
 
         public async Task<BlogPost?> UpdateAsync(BlogPost blogPost)
         {
             
-           var blogExistente= await blogDbContext.BlogPosts.Include(x => x.Tags)
-                .FirstOrDefaultAsync(x => x.Id == blogPost.Id);
+           var blogExistente= await blogDbContext.BlogPosts.FirstOrDefaultAsync(x => x.Id == blogPost.Id);
 
             if(blogExistente != null)
             {
                 blogExistente.Id = blogPost.Id;
                 blogExistente.Encabezado = blogPost.Encabezado;
-                blogExistente.TituloPagina = blogPost.TituloPagina;
                 blogExistente.Contenido = blogPost.Contenido;
-                blogExistente.DescripcionCorta = blogPost.DescripcionCorta;                
-                blogExistente.Autor = blogPost.Autor;
-                blogExistente.UrlImagenDestacada = blogPost.UrlImagenDestacada;
-                blogExistente.ManejadorUrl = blogPost.ManejadorUrl;
                 blogExistente.Visible = blogPost.Visible;
-                blogExistente.FechaPublicacion = blogPost.FechaPublicacion;
-                blogExistente.Tags = blogPost.Tags;
-
+                
+                
                 await blogDbContext.SaveChangesAsync();
                 return blogExistente;
             }

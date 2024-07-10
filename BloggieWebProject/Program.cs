@@ -12,10 +12,8 @@ builder.Services.AddDbContext<BlogDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("BlogDbConnectionString")));
 
 
-builder.Services.AddScoped<ITagRepositorio, TagRepositorio>();
-builder.Services.AddScoped<IBlogPostRepositorio, BlogPostResositorio>();
-builder.Services.AddScoped<IImageRepositorio, CloudinaryImageRepositorio>();
 
+builder.Services.AddScoped<IBlogPostRepositorio, BlogPostResositorio>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline. //LO PRIMERO QUE INICIA DE LA APLICACIÓN

@@ -11,8 +11,7 @@ namespace BloggieWebProject.Data
         }
 
         public DbSet<BlogPost> BlogPosts { get; set; }
-        public DbSet<Tag> Tags { get; set; }
-
-
+        public DbSet<Usuario> Usuarios { get; internal set; }
+        public DbSet<Comentario> Comentarios { get; internal set; }
     }
 }

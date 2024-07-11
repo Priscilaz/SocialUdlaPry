@@ -1,6 +1,7 @@
 using BloggieWebProject.Data;
 using BloggieWebProject.Repositorio;
 using CloudinaryDotNet;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,10 +12,18 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<BlogDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("BlogDbConnectionString")));
 
+builder.Services.AddDbContext<AuthDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("BlogAuthDbConnectionString")));
 
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<AuthDbContext>();
 
 builder.Services.AddScoped<IBlogPostRepositorio, BlogPostResositorio>();
+builder.Services.AddScoped<IComentarioRepositorio, ComentarioRepositorio>();
+builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline. //LO PRIMERO QUE INICIA DE LA APLICACIÓN
 if (!app.Environment.IsDevelopment()) 
@@ -28,7 +37,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
